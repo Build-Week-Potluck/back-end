@@ -91,7 +91,9 @@ router.get("/:userId/potluckList",async(req,res,next)=>{
 //-/:id/addPotluck
 router.post("/:id/addPotluck", async (req, res, next) => {
     try {
+        console.log("addpotluck",req.params.id)
         const { potluckName, date, time, location, foodItems, notes } = req.body
+        
         const id = req.params.id
         const newPotluck = await model.addPotluck(req.body, id)
         console.log("New user", newPotluck)
