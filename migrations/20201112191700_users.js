@@ -87,6 +87,7 @@ exports.down = async function (knex) {
 
   await knex.schema.dropTableIfExists('inviteList');
   await knex.schema.dropTableIfExists('addPotluck');
+  await knex.schema.dropTableIfExists('addpotluck');
   await knex.schema.dropTableIfExists('users');
 
 };
