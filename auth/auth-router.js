@@ -89,12 +89,12 @@ router.get("/:userId/potluckList",async(req,res,next)=>{
     }
 })
 //-/:id/addPotluck
-router.post("/:id/addPotluck", async (req, res, next) => {
+router.post("/addPotluck", async (req, res, next) => {
     try {
-        console.log("addpotluck",req.params.id)
+       
         const { potluckName, date, time, location, foodItems, notes } = req.body
-        
-        const id = req.params.id
+        console.log("addpotluck",req.token.userID)
+        const id = req.token.userID
         const newPotluck = await model.addPotluck(req.body, id)
         console.log("New user", newPotluck)
         res.status(201).json(newPotluck)
