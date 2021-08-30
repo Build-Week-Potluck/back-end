@@ -15,9 +15,12 @@ router.get("/users",restrict, async (req, res, next) => {
 })
 router.post("/login", async (req, res, next) => {
     try {
+        console.log(req.body,"login")
         const { emailId, password } = req.body
+
         const user = await model.findByEmailId(emailId)
-        console.log(user.password, "===", password)
+       // console.log(user.password, "===", password)
+       console.log(user)
         if (!user) {
             return res.status(401).json({
                 message: "Invalid Credentials"
@@ -89,7 +92,7 @@ router.get("/:userId/potluckList",async(req,res,next)=>{
     }
 })
 //-/:id/addPotluck
-router.post("/addPotluck", async (req, res, next) => {
+router.post("/addPotluck",restrict ,async (req, res, next) => {
     try {
        
         const { potluckName, date, time, location, foodItems, notes } = req.body
@@ -104,11 +107,14 @@ router.post("/addPotluck", async (req, res, next) => {
         next(err)
     }
 })
-router.put("/:id/editPotluck", async (req, res, next) => {
+router.put("/:id/editPotluck",restrict, async (req, res, next) => {
     try {
+        console.log("editmode")
         const { potluckName, date, time, location, foodItems, notes } = req.body
+       const userID=req.token.userID
+       console.log("userID edit",userID)
         const id = req.params.id
-        const idCheck = await model.findById(id)
+        const idCheck = await model.findById(id,userID)
         console.log("potluck", idCheck)
         if (!idCheck) {
             res.status(409).json({
@@ -117,7 +123,7 @@ router.put("/:id/editPotluck", async (req, res, next) => {
             })
 
         }
-        const editPotluck = await model.updatePotluck(req.body, id)
+        const editPotluck = await model.updatePotluck(req.body, id,userID)
         console.log("Edit", editPotluck)
         res.status(200).json(editPotluck)
     }
