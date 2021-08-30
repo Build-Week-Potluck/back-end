@@ -8,6 +8,7 @@ async function find() {
 
 }
 async function findPotluck(Id){
+    console.log("userID",Id)
     return await db("addPotluck")
         .select("potluckId", "potluckName", "date", "time", "location", "foodItems","notes")
         .where("userId", Id)
@@ -59,10 +60,10 @@ async function updatePotluck(data, id, userID) {
     return findById(id,userID)
 
 }
-async function deletePotluck(id){
+async function deletePotluck(id,userID){
     console.log("delete",id)
    return  await db("addPotluck")
-        .where("potluckId",id)
+        .where({"potluckId":id,"userId":userID})
         .del()
 }
 //-/guest/:id/invite/potLuck/:id
