@@ -80,9 +80,11 @@ router.post("/register", async (req, res, next) => {
         next(err)
     }
 })
-router.get("/:userId/potluckList",async(req,res,next)=>{
+router.get("/potluckList",restrict,async(req,res,next)=>{
     try{
-        const userId=req.params.userId
+        
+        const userId=req.token.userID
+        console.log("potlucklist",userId)
         const potluckList=await model.findPotluck(userId)
         console.log("List of potluck ",potluckList)
         res.status(200).json(potluckList)
@@ -135,7 +137,8 @@ router.put("/:id/editPotluck",restrict, async (req, res, next) => {
 
 router.delete("/:id/deletePotluck", async (req, res, next) => {
     const id = req.params.id
-    const deleted = await model.deletePotluck(id)
+    const userID=req.token.userID
+    const deleted = await model.deletePotluck(id,userID)
     try {
         if (deleted) {
             res.status(200).json({
@@ -146,8 +149,6 @@ router.delete("/:id/deletePotluck", async (req, res, next) => {
     catch (err) {
         next(err)
     }
-
-
 
 })
 
