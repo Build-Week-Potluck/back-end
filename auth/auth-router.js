@@ -110,6 +110,21 @@ router.post("/addPotluck",restrict ,async (req, res, next) => {
         next(err)
     }
 })
+router.get("/:id/editPotluck",restrict, async (req, res, next) => {
+    try {
+        console.log("getPotluckID")
+      //  const { potluckName, date, time, location, foodItems, notes } = req.body
+       const userID=req.token.userID
+       console.log("userID edit",userID)
+        const id = req.params.id 
+        const PotluckData = await model.findById(id,userID)
+        res.status(200).json(PotluckData)
+    }
+    catch (err) {
+        next(err)
+    }
+})
+
 router.put("/:id/editPotluck",restrict, async (req, res, next) => {
     try {
         console.log("editmode")
