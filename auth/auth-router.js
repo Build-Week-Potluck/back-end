@@ -4,15 +4,15 @@ const bycrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const { restrict } = require("./auth-middleware")
 
+router.get('/user', async (req, res, next) => {
+  const id = req.token.userID;
+  if (!id) {
+    return res.status(400).json({ error: 'No valid token found.' });
+  }
+  const user = await model.findByUserId(id);
+  return res.status(200).json({ user });
+});
 
-router.get("/users",restrict, async (req, res, next) => {
-    try {
-        res.json(await model.find())
-    }
-    catch (err) {
-        next(err)
-    }
-})
 router.post("/login", async (req, res, next) => {
     try {
         console.log(req.body,"login")
